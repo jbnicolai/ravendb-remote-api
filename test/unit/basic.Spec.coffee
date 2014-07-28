@@ -9,7 +9,7 @@ describe 'basic setup >>', ->
   it "download Ravendb release", (done) ->
     ravendb.download.release(2908)
       .then ->
-        file = fs.existsSync('./RavenDB-Build.zip')
+        file = fs.existsSync('./db/RavenDB-Build.zip')
         expect(file).to.equal true
         done()
       .catch ->

@@ -7,6 +7,10 @@ chalk = require('chalk')
 gutil = require('gulp-util')
 fs  = require("fs")
 unzip = require('unzip')
+grunt = require('grunt')
+clean = require('gulp-clean')
+rimraf = require('rimraf')
+mkdirp = require('mkdirp')
 
 stream = through (file, enc, cb) ->
   @push(file)
@@ -14,12 +18,10 @@ stream = through (file, enc, cb) ->
 
 exports = module.exports = RavendbRelease = (releaseNum) ->
   deferred = Q.defer()
-  RavendbRelease.download(releaseNum)
-  .then ->
-    deferred.resolve()
-  .catch ->
-    deferred.reject new Error arguments
-
+  RavendbRelease.clean('./db').then ->
+    process.stdout.write "[" + chalk.green("Setup") + "]" + " Deleted " + chalk.cyan("#{__dirname}/db/") + "..."
+    RavendbRelease.download(releaseNum).then ->
+      deferred.resolve()
   deferred.promise
 
 RavendbRelease.baseUrl = (releaseNum) ->
@@ -27,13 +29,14 @@ RavendbRelease.baseUrl = (releaseNum) ->
 
 RavendbRelease.download = (releaseNum) ->
   deferred = Q.defer()
-  saveFilePath = './RavenDB-Build.zip'
+  saveFilePath = './db/RavenDB-Build.zip'
   download = (url) ->
     downloadHandler = (err, res, body) ->
-      fs.writeFile saveFilePath, new Buffer(body), (err) ->
-        process.stdout.write " " + chalk.green("Done\n")
-        stream.emit "end"
-        stream.end()
+      mkdirp './db/', (error) ->
+        fs.writeFile saveFilePath, new Buffer(body), (err) ->
+          process.stdout.write " " + chalk.green("Done\n")
+          stream.emit "end"
+          stream.end()
 
     firstLog = true
     if typeof url is "object"
@@ -68,13 +71,15 @@ RavendbRelease.download = (releaseNum) ->
 
   deferred.promise
 
+RavendbRelease.clean = (path) ->
+  deferred = Q.defer()
+  rimraf path, ->
+    deferred.resolve()
+  deferred.promise
 
-
-mkdir = (path) ->
+RavendbRelease.mkdir = (path) ->
   deferred = Q.defer()
   fs.mkdir path, (error) ->
-    if not e or (e and e.code is 'EEXIST')
-      deferred.resolve()
-    else
-      deferred.reject error
+    deferred.resolve()
+
   deferred.promise
