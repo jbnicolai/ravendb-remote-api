@@ -67,7 +67,11 @@
     "gulp": "^3.8.6",
     "gulp-clean": "^0.3.1",
     "rimraf": "^2.2.8",
-    "mkdirp": "^0.5.0"
+    "mkdirp": "^0.5.0",
+    "console-app": "^0.0.6",
+    "once": "^1.3.0",
+    "expressjs-route-mapper": "0.0.2",
+    "express": "^4.7.2"
   },
   "keywords": [
     "express",

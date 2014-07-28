@@ -1,4 +1,6 @@
 RavendbRelease = require './ravendbRelease'
+ravendbService = require './ravendbService'
+restfulApi = require './restfulApi'
 
 exports = module.exports = ->
 
@@ -13,3 +15,15 @@ Object.defineProperty module.exports, 'download',
       return throw new Error 'missing release number' unless releaseNumber
       RavendbRelease releaseNumber
 
+Object.defineProperty module.exports, 'cli',
+  enumerable: false
+  configurable: false
+  writable: false
+  value: ravendbService
+
+Object.defineProperty module.exports, 'server',
+  enumerable: false
+  configurable: false
+  writable: false
+  value: ->
+    restfulApi module.exports

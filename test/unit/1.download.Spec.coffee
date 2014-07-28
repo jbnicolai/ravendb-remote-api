@@ -1,7 +1,7 @@
 ravendb = require '../../src/main'
 fs = require('fs')
 
-describe 'basic setup >>', ->
+describe.skip 'basic setup >>', ->
   @timeout(50000)
   #==============================================================================
   # basic test
