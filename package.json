@@ -54,7 +54,16 @@
     "connect-multiparty": "^1.1.0",
     "crypto": "0.0.3",
     "lodash": "^2.4.1",
-    "q": "^1.0.1"
+    "q": "^1.0.1",
+    "download": "^0.1.18",
+    "request": "^2.39.0",
+    "request-progress": "^0.3.1",
+    "through": "^2.3.4",
+    "chalk": "^0.5.1",
+    "gutil": "^1.4.1",
+    "gulp-util": "^3.0.0",
+    "chai-fs": "^0.1.0",
+    "unzip": "^0.1.9"
   },
   "keywords": [
     "express",

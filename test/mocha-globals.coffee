@@ -9,6 +9,7 @@ supertest = require('supertest')
 
 # chai plugins
 chai.use(require 'chai-as-promised')
+chai.use(require('chai-fs'))
 
 # publish globals that all specs can use
 global.expect = chai.expect
