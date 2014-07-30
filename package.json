@@ -1,6 +1,6 @@
 {
   "name": "ravendb-remote-api",
-  "version": "0.0.1-52b8-d",
+  "version": "0.0.1",
   "description": "run single/concurrent process",
   "homepage": "https://github.com/carlosmarte/ravendb-remote-api",
   "repository": {
