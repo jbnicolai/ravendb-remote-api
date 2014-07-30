@@ -143,6 +143,9 @@ module.exports = (grunt) ->
         if target is 'git'
           runTask = ['runCoffee','bump:git']
 
+        if target is 'force'
+          runTask = ["bump:patch","shell:publish"]
+
         unless target
           runTask.concat ["bump:patch","shell:publish"]
 
