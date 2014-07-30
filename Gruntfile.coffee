@@ -67,6 +67,24 @@ module.exports = (grunt) ->
         command: mochaTest
         options:
           async: true
+      publish:
+        command: "npm publish"
+    #==============================================================================
+    # dump version
+    #==============================================================================
+    bump:
+      options:
+        files: ['package.json'],
+        updateConfigs: [],
+        commit: true,
+        commitMessage: 'Release v%VERSION%',
+        commitFiles: ['package.json'],
+        createTag: true,
+        tagName: 'v%VERSION%',
+        tagMessage: 'Version %VERSION%',
+        push: true,
+        pushTo: 'origin master',
+        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
 
     #==============================================================================
     # concurrent
@@ -92,12 +110,41 @@ module.exports = (grunt) ->
     #==============================================================================
     # Task
     #==============================================================================
-    grunt.registerTask('build', [
-      'clean:all'
+    grunt.registerTask('runCoffee', [
       'coffeelint:dev'
       'coffee:dev'
+    ])
+    grunt.registerTask('build', [
+      'clean:all'
+      'runCoffee'
       'test'
     ])
     grunt.registerTask('dev', ['watch:dev'])
     grunt.registerTask('test', ['concurrent:test'])
     grunt.registerTask('default', ['clean:all'])
+
+    grunt.registerTask "release", "Release a new version, push it and publish", (target) ->
+        runTask = ["build"]
+        if target is 'bump'
+          runTask.push 'bump'
+
+        if target is 'patch'
+          runTask.push 'bump:patch'
+
+        if target is 'minor'
+          runTask.push 'bump:minor'
+
+        if target is 'major'
+          runTask.push 'bump:major'
+
+        if target is 'dev'
+          runTask.push 'bump:prerelease'
+
+        if target is 'git'
+          runTask = ['runCoffee','bump:git']
+
+        unless target
+          runTask.concat ["bump:patch","shell:publish"]
+
+        grunt.task.run runTask
+

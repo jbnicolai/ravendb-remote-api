@@ -66,10 +66,8 @@ RavendbRelease.download = (releaseNum) ->
     fs.createReadStream(saveFilePath)
       .pipe(unzip.Extract
         path: './db/'
-      ).on 'close', ->
-        deferred.resolve()
-
-  deferred.promise
+      ).on('close', -> deferred.resolve())
+    deferred.promise
 
 RavendbRelease.clean = (path) ->
   deferred = Q.defer()
