@@ -12,6 +12,17 @@ RavendbService = ->
   @apiUrl = ravendbUrlApi
   return this
 
+Object.defineProperty RavendbService.prototype, 'help',
+  enumerable: false
+  configurable: false
+  writable: false
+  value: ->
+    ConsoleApp.cmd
+      cmd: "./db/Server/Raven.Server.exe"
+      args: [
+        '-help'
+      ]
+
 Object.defineProperty RavendbService.prototype, 'start',
   enumerable: false
   configurable: false
@@ -22,10 +33,10 @@ Object.defineProperty RavendbService.prototype, 'start',
     .then ->
       resolve = once(deferred.resolve)
       tmp = ConsoleApp.run
-        cmd: "NET"
+        cmd: "./db/Server/Raven.Server.exe"
         stdio: 'fd4Pipe'
         detached: true
-        args: ['START', 'RavenDb']
+        args: []
 
       tmp.instance.stdout.on 'data', (data) ->
         console.log data.toString()
@@ -50,10 +61,10 @@ Object.defineProperty RavendbService.prototype, 'terminate',
     deferred = Q.defer()
     results = []
     tmp = ConsoleApp.run
-      cmd: "NET"
+      cmd: "Taskkill"
       stdio: 'fd4Pipe'
       detached: true
-      args: ['STOP','RavenDb']
+      args: ['/IM' ,'Raven.Server.exe', '/F']
 
     tmp.instance.stdout.on 'data', (data) ->
       console.log data.toString()
@@ -63,5 +74,32 @@ Object.defineProperty RavendbService.prototype, 'terminate',
       deferred.resolve results.join ' '
 
     deferred.promise
+
+Object.defineProperty RavendbService.prototype, 'backup',
+  enumerable: false
+  configurable: false
+  writable: false
+  value: ->
+    ConsoleApp.cmd
+      cmd: "./db/Server/Raven.Server.exe"
+      args: [
+        '-src'
+        '[backup location]'
+        '-dest'
+        '[restore location]'
+        '-restore'
+      ]
+
+Object.defineProperty RavendbService.prototype, 'service',
+  enumerable: false
+  configurable: false
+  writable: false
+  value:
+    restart: ->
+      ConsoleApp.cmd
+        cmd: "./db/Server/Raven.Server.exe"
+        args: [
+          '--restart'
+        ]
 
 exports = module.exports = new RavendbService()

@@ -18,6 +18,14 @@ Here is an example on how to use it:
 
 ## Example
 
+api url
+```js
+localhost:3000/!/api/database/start //start ravendb exe
+localhost:3000/!/api/database/stop //stop ravendb exe
+localhost:3000/!/api/service/start //start service
+localhost:3000/!/api/service/stop //stop service
+```
+
 ### Download RavenDB Release
 
 ```js

@@ -1,5 +1,6 @@
 RavendbRelease = require './ravendbRelease'
 ravendbService = require './ravendbService'
+ravendbCli = require './ravendbCli'
 restfulApi = require './restfulApi'
 
 exports = module.exports = ->
@@ -16,6 +17,12 @@ Object.defineProperty module.exports, 'download',
       RavendbRelease releaseNumber
 
 Object.defineProperty module.exports, 'cli',
+  enumerable: false
+  configurable: false
+  writable: false
+  value: ravendbCli
+
+Object.defineProperty module.exports, 'service',
   enumerable: false
   configurable: false
   writable: false

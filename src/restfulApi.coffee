@@ -9,6 +9,15 @@ exports = module.exports = (ravendb) ->
   app.routeMapper
     base: '/!/api',
     routes:
+      '/service':
+        '/start': 'get': (req, res) ->
+          ravendb.service.start().then (data) ->
+            res.send data.toString()
+
+        '/stop': 'get': (req, res) ->
+          ravendb.service.stop().then (data) ->
+            res.send data.toString()
+
       '/database':
         '/start': 'get': (req, res) ->
           ravendb.cli.start().then (data) ->
