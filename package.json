@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "chai-fs": "^0.1.0",
-    "chalk": "^0.5.1",
+    "chalk": "^1.0.0",
     "connect-multiparty": "^1.1.0",
     "console-app": "^0.0.6",
     "crypto": "0.0.3",
